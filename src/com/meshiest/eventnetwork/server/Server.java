@@ -99,7 +99,6 @@ public class Server extends JFrame implements ActionListener, Runnable  {
    * Graph that will show the number of requests per second
    */
   private RequestInfoPanel requestInfoPanel;
-
   
   /**
    * Default constructor, creates generic server interface
@@ -360,6 +359,25 @@ public class Server extends JFrame implements ActionListener, Runnable  {
       
     }
   }
+  
+  /**
+   * Tries to stop the server
+   */
+  public boolean stopServer() {
+    try {
+      synchronized (users) {
+        for(User user : users.values()) {
+          user.remove();
+        }
+      }
+      this.socket.close();
+      logln("info", "Server closed");
+      return true;
+    } catch (IOException e) {
+      System.err.println("Could not close server");
+      return false;
+    }
+  }
 
   /**
    * ActionListener requirement, handled interactions with components
@@ -370,17 +388,7 @@ public class Server extends JFrame implements ActionListener, Runnable  {
     
     // handle when the stop button is pressed
     if (source == stopServerButton) {
-      try {
-        synchronized (users) {
-          for(User user : users.values()) {
-            user.remove();
-          }
-        }
-        this.socket.close();
-        logln("info", "Server closed");
-      } catch (IOException e) {
-        System.err.println("Could not close server");
-      }
+      stopServer();
     }
     
     // A user in the user list is selected
