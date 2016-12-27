@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * A class for encoding and decoding json strings and the like
  * @author Meshiest
  * @since 20161123
- * @version 0.1.3
+ * @version 0.1.4
  *
  */
 public class Strings {
