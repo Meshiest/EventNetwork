@@ -12,6 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,7 +30,7 @@ import javax.swing.event.ListDataListener;
  * This is the main class for a generic Game Server
  * @author Meshiest
  * @since 20161121
- * @version 0.1.10
+ * @version 0.1.11
  */
 @SuppressWarnings("serial")
 public class Server extends JFrame implements ActionListener, Runnable  {
@@ -353,7 +354,9 @@ public class Server extends JFrame implements ActionListener, Runnable  {
       for(ListDataListener l : dataListeners)
         l.contentsChanged(listDataEvent);
       
-      users.remove(user.getId());
+      synchronized(users) {
+        users.remove(user.getId());
+      }
       logln("info", "Client " + user.getId() + " disconnected");
       eventServer.onClientDisconnect(user.getId());
       
@@ -366,9 +369,9 @@ public class Server extends JFrame implements ActionListener, Runnable  {
   public boolean stopServer() {
     try {
       synchronized (users) {
-        for(User user : users.values()) {
-          user.remove();
-        }
+        Iterator<User> userList = users.values().iterator();
+        while(userList.hasNext())
+          userList.next().remove();
       }
       this.socket.close();
       logln("info", "Server closed");
