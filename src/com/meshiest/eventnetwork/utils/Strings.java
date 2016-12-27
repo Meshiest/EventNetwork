@@ -92,8 +92,9 @@ public class Strings {
       if(stringMatcher.matches())
         matches.add(unescapeString(stringMatcher.group(1)));
       
-      else if(booleanMatcher.matches())
-        matches.add(booleanMatcher.group(1) == "true");
+      else if(booleanMatcher.matches()) {
+        matches.add(booleanMatcher.group(1).equals("true"));
+      }
       
       else if(numberMatcher.matches()) {
         try {
