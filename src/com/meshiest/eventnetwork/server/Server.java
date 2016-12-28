@@ -371,7 +371,7 @@ public class Server extends JFrame implements ActionListener, Runnable  {
       synchronized (users) {
         Iterator<User> userList = users.values().iterator();
         while(userList.hasNext())
-          userList.next().remove();
+          users.remove(userList.next());
       }
       this.socket.close();
       logln("info", "Server closed");
