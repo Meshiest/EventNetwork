@@ -30,7 +30,7 @@ import javax.swing.event.ListDataListener;
  * This is the main class for a generic Game Server
  * @author Meshiest
  * @since 20161121
- * @version 0.1.11
+ * @version 0.1.12
  */
 @SuppressWarnings("serial")
 public class Server extends JFrame implements ActionListener, Runnable  {
@@ -370,8 +370,10 @@ public class Server extends JFrame implements ActionListener, Runnable  {
     try {
       synchronized (users) {
         Iterator<User> userList = users.values().iterator();
-        while(userList.hasNext())
-          users.remove(userList.next());
+        while(userList.hasNext()) {
+          userList.next().socket.close();
+        }
+        users.clear();
       }
       this.socket.close();
       logln("info", "Server closed");

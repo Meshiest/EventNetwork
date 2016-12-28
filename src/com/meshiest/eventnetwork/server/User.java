@@ -15,7 +15,7 @@ import com.meshiest.eventnetwork.utils.Strings;
  * A class to contain a networked user
  * @author Meshiest
  * @since 20161121
- * @version 0.0.4
+ * @version 0.0.5
  */
 public class User implements Runnable {
   
@@ -37,7 +37,7 @@ public class User implements Runnable {
   /**
    * Socket client uses to communicate
    */
-  private Socket socket;
+  protected Socket socket;
   
   /**
    * Server that manages this client

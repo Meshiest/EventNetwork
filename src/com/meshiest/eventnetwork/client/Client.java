@@ -21,7 +21,7 @@ import com.meshiest.eventnetwork.utils.Strings;
  * 
  * @author Meshiest
  * @since 20161123
- * @version 0.1.4
+ * @version 0.1.5
  */
 public class Client implements Runnable {
 
@@ -196,10 +196,6 @@ public class Client implements Runnable {
    * Force the client to disconnect
    */
   public void disconnect() {
-    if(!socket.isConnected())
-      return;
-    if(socket.isClosed())
-      return;
     try {
       socket.close();
       eventClient.onDisconnect();
